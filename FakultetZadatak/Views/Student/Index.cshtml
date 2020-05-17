@@ -1,0 +1,72 @@
+﻿@using PagedList;
+@using PagedList.Mvc;
+
+
+
+@model IPagedList<FakultetZadatak.Models.Student>
+
+<p>
+    <br>
+    @Html.ActionLink("Dodaj novog studenta", "Create",null, new { @class = "btn btn-success btn-large" })
+</p>
+
+@using (@Html.BeginForm("Index", "Student", FormMethod.Get))
+{
+    <b>Pretraga po imenu:</b>
+    @Html.TextBox("Pretraga") <input type="submit" value="Pretraga" />
+}
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.First().bi)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().Ime_i_prezime)
+        </th>
+        <th>
+            @Html.ActionLink("Datum rodjenja", "Index", new { sortBy = ViewBag.datum_rodjenja })
+            @*@Html.DisplayNameFor(model => model.First().datum_rodjenja)*@
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().godina_studija)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().grupa_id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().Grad)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.bi)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Ime_i_prezime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.datum_rodjenja)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.godina_studija)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.grupa_id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Grad)
+        </td>
+        <td>
+            @Html.ActionLink("Izmeni", "Edit", new { bi = item.bi }, new { @class = "btn btn-primary btn-large" }) |
+            @Html.ActionLink("Obrisi", "Delete", new { bi = item.bi }, new { @class = "btn btn-danger btn-large", onclick = "return confirm('Da li ste sigurni da zelite da obrisete studenta?');" })
+        </td>
+    </tr>
+    }
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+</table>

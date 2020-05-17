@@ -1,0 +1,47 @@
+﻿@using PagedList;
+@using PagedList.Mvc;
+
+
+@model IPagedList<FakultetZadatak.Models.Ispit>
+
+
+
+<p>
+    <br>
+    @Html.ActionLink("Dodaj novi ispit", "Create", null, new { @class = "btn btn-success btn-large" })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.First().bi)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().predmet_id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().ocena)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.bi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.predmet_id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ocena)
+            </td>
+            <td>
+                @Html.ActionLink("Izmeni", "Edit", new { id = item.id }, new { @class = "btn btn-primary btn-large" }) |
+                @Html.ActionLink("Obrisi", "Delete", new { id = item.id }, new { @class = "btn btn-danger btn-large", onclick = "return confirm('Da li ste sigurni da zelite da obrisete ispit?');" })
+            </td>
+        </tr>
+    }
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+</table>
+
